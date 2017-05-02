@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('locale_fallback')->defaultValue('en')->end()
                 ->scalarNode('default_domain')->defaultValue('messages')->end()
                 ->scalarNode('http_cache_time')->defaultValue('86400')->end()
+                ->scalarNode('lexik_translation')->defaultValue('false')->end()
                 ->arrayNode('active_locales')
                     ->prototype('scalar')
                     ->end()

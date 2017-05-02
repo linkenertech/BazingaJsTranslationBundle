@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class Controller
 {
+    const LOADER_LEXIK_DATABASE = 'database';
     /**
      * @var TranslatorInterface
      */
@@ -62,6 +63,11 @@ class Controller
     private $httpCacheTime;
 
     /**
+     * @var bool
+     */
+    private $enabledLexikTranslation;
+
+    /**
      * @param TranslatorInterface $translator        The translator.
      * @param EngineInterface     $engine            The engine.
      * @param TranslationFinder   $translationFinder The translation finder.
@@ -79,7 +85,8 @@ class Controller
         $debug          = false,
         $localeFallback = '',
         $defaultDomain  = '',
-        $httpCacheTime  = 86400
+        $httpCacheTime  = 86400,
+        $enabledLexikTranslation = false
     ) {
         $this->translator        = $translator;
         $this->engine            = $engine;
@@ -89,6 +96,7 @@ class Controller
         $this->localeFallback    = $localeFallback;
         $this->defaultDomain     = $defaultDomain;
         $this->httpCacheTime     = $httpCacheTime;
+        $this->enabledLexikTranslation = $enabledLexikTranslation;
     }
 
     /**
@@ -139,8 +147,14 @@ class Controller
 
                     if (isset($this->loaders[$extension])) {
                         $resources[] = new FileResource($filename);
-                        $catalogue   = $this->loaders[$extension]
-                            ->load($filename, $locale, $domain);
+
+                        if ($this->enabledLexikTranslation) {
+                            $catalogue = $this->loaders[self::LOADER_LEXIK_DATABASE]
+                                ->load($filename, $locale, $domain);
+                        } else {
+                            $catalogue = $this->loaders[$extension]
+                                ->load($filename, $locale, $domain);
+                        }
 
                         $translations[$locale][$domain] = array_replace_recursive(
                             $translations[$locale][$domain],

@@ -25,6 +25,9 @@
     "replace": {
         "willdurand/expose-translation-bundle": "2.5.*"
     },
+    "suggest": {
+        "lexik/translation-bundle": "To use database loader"
+    },
     "autoload": {
         "psr-0": { "Bazinga\\Bundle\\JsTranslationBundle": "" }
     },

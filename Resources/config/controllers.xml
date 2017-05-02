@@ -17,6 +17,7 @@
             <argument></argument> <!-- fallback (locale) -->
             <argument></argument> <!-- default domain    -->
             <argument></argument> <!-- http cache time -->
+            <argument></argument> <!-- enabled lexik translation -->
         </service>
     </services>
 </container>
